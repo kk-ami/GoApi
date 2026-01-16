@@ -10,5 +10,12 @@ func Handler(r *chi.Mux) {
 	//Global middleware
 	r.Use(chimiddle.StripSlashes)
 
-	r.Route("/account",)
+	r.Route("/account", func (router chi.Router) {
+
+		// Middleware for /account route
+		router.Use(middleware.Authorization)
+
+		router.Get("/coins", GetCoinBalance)
+
+	})
 }
