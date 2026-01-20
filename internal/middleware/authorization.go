@@ -8,7 +8,7 @@ import (
 	"github.com/kk-ami/GoApi/internal/tools"
 	log "github.com/sirupsen/logrus"
 )
-
+//-------
 var UnAuthorizedError = errors.New("Invalid username or token.")
 
 func Authorization(next http.Handler) http.Handler {
@@ -18,4 +18,17 @@ func Authorization(next http.Handler) http.Handler {
 		var token = r.Header.Get("Authorization")
 		var err error
 
+		if username == "" {
+			api.RequestErrorHandler(w, UnAuthorizedError)
+			return
+		}
+
+		var database *tools.DatabaseInterface
+		database, err = tools.NewDatabase()
+		if err != nil {
+			api.InternalErrorHandler(w)
+			return
+		}
+
+		//------
 	}
